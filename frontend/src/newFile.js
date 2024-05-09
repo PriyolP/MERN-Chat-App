@@ -6,10 +6,9 @@ import { root } from ".";
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      ><></>{" "}
+      <ChakraProvider>
+        <App />
+      </ChakraProvider>
     </BrowserRouter>
-    <ChakraProvider>
-      <App />
-    </ChakraProvider>
   </React.StrictMode>
 );

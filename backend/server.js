@@ -3,24 +3,36 @@ const { chats } = require("./data/data");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const colors = require("colors");
+const userRoutes = require("./routes/userRoutes");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
+const cors = require("cors");
 
 dotenv.config();
 connectDB();
 const app = express();
 
+app.use(express.json()); //To accept the JSON data
+
+app.use(cors());
+
 app.get("/", (req, res) => {
   res.send("API is Running");
 });
 
-app.get("/api/chat", (req, res) => {
-  res.send(chats);
-});
+app.use("/api/user", userRoutes);
 
-app.get("/api/chat/:id", (req, res) => {
-  //   console.log(req.params.id);
-  const singleChat = chats.find((c) => c._id === req.params.id);
-  res.send(singleChat);
-});
+app.use(notFound);
+app.use(errorHandler);
+
+// app.get("/api/chat", (req, res) => {
+//   res.send(chats);
+// });
+
+// app.get("/api/chat/:id", (req, res) => {
+//   //   console.log(req.params.id);
+//   const singleChat = chats.find((c) => c._id === req.params.id);
+//   res.send(singleChat);
+// });
 
 const PORT = process.env.PORT || 5000;
 
